@@ -1027,14 +1027,35 @@ body {
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
         </svg>
       </div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#3D2E1E;margin-bottom:8px;">Admin Access</h2>
-      <p style="font-size:13px;color:#A89880;margin-bottom:28px;">กรุณากรอกรหัสผ่านแอดมิน</p>
-      <div class="form-group">
-        <input type="password" class="form-input" id="admin-password-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdminLogin()">
-      </div>
-      <button class="btn-submit" onclick="checkAdminLogin()" style="margin-top:8px;">เข้าสู่ระบบ</button>
-      <button onclick="closeAdminLogin()" style="margin-top:12px;background:none;border:none;color:#A89880;font-family:inherit;font-size:14px;cursor:pointer;width:100%;">ยกเลิก</button>
+
+```
+  <!-- หน้าล็อกอิน -->
+  <div id="login-form">
+    <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#3D2E1E;margin-bottom:8px;">Admin Access</h2>
+    <p style="font-size:13px;color:#A89880;margin-bottom:28px;">กรุณากรอกรหัสผ่านแอดมิน</p>
+    <div class="form-group">
+      <input type="password" class="form-input" id="admin-password-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdminLogin()">
     </div>
+    <button class="btn-submit" onclick="checkAdminLogin()" style="margin-top:8px;">เข้าสู่ระบบ</button>
+    <button onclick="showForgotPassword()" style="margin-top:10px;background:none;border:none;color:#D4A843;font-family:inherit;font-size:13px;cursor:pointer;width:100%;text-decoration:underline;">ลืมรหัสผ่าน?</button>
+    <button onclick="closeAdminLogin()" style="margin-top:6px;background:none;border:none;color:#A89880;font-family:inherit;font-size:14px;cursor:pointer;width:100%;">ยกเลิก</button>
+  </div>
+
+  <!-- หน้าโค้ดสำรอง -->
+  <div id="forgot-form" style="display:none;">
+    <h2 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#3D2E1E;margin-bottom:8px;">ยืนยันตัวตน</h2>
+    <p style="font-size:13px;color:#A89880;margin-bottom:24px;">กรอกโค้ดสำรองรหัสแอดมิน</p>
+    <div class="form-group">
+      <input type="text" class="form-input" id="recovery-code-input" placeholder="กรอกโค้ดสำรอง..." onkeydown="if(event.key==='Enter')checkRecoveryCode()">
+    </div>
+    <p style="font-size:12px;color:#A89880;margin-bottom:16px;">หลังยืนยันแล้วจะรีเซ็ตรหัสเป็นค่าเริ่มต้น</p>
+    <button class="btn-submit" onclick="checkRecoveryCode()" style="margin-top:4px;">ยืนยัน</button>
+    <button onclick="showLoginForm()" style="margin-top:10px;background:none;border:none;color:#A89880;font-family:inherit;font-size:14px;cursor:pointer;width:100%;">← กลับ</button>
+  </div>
+
+</div>
+```
+
   </div>
 
   <!-- ===== ADMIN PANEL ===== -->
@@ -1607,7 +1628,39 @@ body {
   // ════════════════════════════════════════
   const DEFAULT_ADMIN_PASS = btoa("1528900024161");
 
+  function showForgotPassword() {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("forgot-form").style.display = "block";
+    document.getElementById("recovery-code-input").value = "";
+    setTimeout(() => document.getElementById("recovery-code-input").focus(), 100);
+  }
+
+  function showLoginForm() {
+    document.getElementById("forgot-form").style.display = "none";
+    document.getElementById("login-form").style.display = "block";
+    document.getElementById("recovery-code-input").value = "";
+  }
+
+  function checkRecoveryCode() {
+    const RECOVERY = "bio7171899_242554_24";
+    const input = document.getElementById("recovery-code-input").value.trim();
+    if (input === RECOVERY) {
+      // รีเซ็ตรหัสกลับเป็นค่าเริ่มต้น
+      settings.adminPass = btoa("1528900024161");
+      lsSave(SETTINGS_KEY, settings);
+      ghSave("settings.json", settings);
+      showLoginForm();
+      closeAdminLogin();
+      showToast("✅ รีเซ็ตรหัสผ่านสำเร็จ กรอกรหัสเริ่มต้นได้เลยค่ะ");
+    } else {
+      showToast("❌ โค้ดสำรองไม่ถูกต้องค่ะ");
+      document.getElementById("recovery-code-input").value = "";
+      document.getElementById("recovery-code-input").focus();
+    }
+  }
+
   function openAdminLogin() {
+    showLoginForm();
     document.getElementById("admin-login-overlay").classList.add("active");
     setTimeout(() => document.getElementById("admin-password-input").focus(), 400);
   }
