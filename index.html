@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    /* CSS ทั้งหมดดึงจากไฟล์ต้นฉบับของคุณ 100% ไม่มีการแก้ไขการจัดวาง */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -46,60 +45,999 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .font-display { font-family: 'Playfair Display', 'Prompt', serif; }
+    .font-display {
+      font-family: 'Playfair Display', 'Prompt', serif;
+    }
 
-    /* Keyframes & Animations (ต้นฉบับ) */
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,67,0.3); } 50% { box-shadow: 0 0 20px 4px rgba(212,168,67,0.15); } }
-    @keyframes credit-pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
-    @keyframes float-up { 0% { opacity: 0; transform: translateY(0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-100px); } }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 3px; }
 
-    .animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; opacity: 0; }
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,67,0.3); }
+      50% { box-shadow: 0 0 20px 4px rgba(212,168,67,0.15); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes credit-pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes sparkle-float {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-40px) scale(0.5); }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      opacity: 0;
+    }
     .animate-delay-1 { animation-delay: 0.1s; }
     .animate-delay-2 { animation-delay: 0.2s; }
     .animate-delay-3 { animation-delay: 0.3s; }
+    .animate-delay-4 { animation-delay: 0.4s; }
+    .animate-delay-5 { animation-delay: 0.5s; }
 
-    /* Header */
-    .header { position: sticky; top: 0; z-index: 100; background: rgba(255,249,238,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(212,168,67,0.12); padding: 0 24px; }
-    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
-    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .logo-icon { width: 44px; height: 44px; background: var(--gradient-gold); border-radius: 14px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: var(--shadow-sm); }
-    .logo-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
+    /* Layout Components */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,249,238,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212,168,67,0.12);
+      padding: 0 24px;
+      transition: background 0.3s;
+    }
 
-    /* Hero */
-    .hero { background: var(--gradient-hero); padding: 80px 24px 100px; text-align: center; position: relative; overflow: hidden; }
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 8vw, 64px); font-weight: 700; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
-    .gold-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
 
-    /* Credit Card Area */
-    .credit-section { padding: 0 24px 80px; margin-top: -60px; position: relative; z-index: 10; }
-    .credit-card { background: var(--white-90); backdrop-filter: blur(10px); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: 48px 40px; text-align: center; max-width: 540px; margin: 0 auto; border: 1px solid var(--white); }
-    
-    .credit-display { margin: 24px 0; position: relative; display: inline-block; }
-    #credit-value { font-family: 'Playfair Display', serif; font-size: 84px; font-weight: 700; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; display: inline-block; }
-    .credit-pop-animation { animation: credit-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
 
-    .btn-add-credit { flex: 2; position: relative; padding: 18px 32px; background: var(--gradient-gold); color: white; border: none; border-radius: var(--radius-md); font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 8px 24px rgba(212,168,67,0.35); overflow: visible; }
-    .btn-add-credit:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(212,168,67,0.45); }
-    .btn-add-credit:active { transform: translateY(1px) scale(0.98); }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-gold);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
 
-    .btn-deduct-credit { flex: 1; padding: 18px; background: white; color: var(--text-secondary); border: 1.5px solid rgba(212,168,67,0.25); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-    /* Floating +1 Text */
-    .plus-one { position: absolute; color: var(--gold-dark); font-weight: 700; font-size: 24px; pointer-events: none; z-index: 100; animation: float-up 1s ease-out forwards; }
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: all 0.25s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--gold-dark);
+      background: rgba(212,168,67,0.08);
+    }
+
+    .btn-shop-now {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 24px;
+      background: var(--gradient-gold);
+      color: white;
+      font-family: 'Prompt', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(212,168,67,0.3);
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      text-decoration: none;
+    }
+
+    .btn-shop-now:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(212,168,67,0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: var(--gradient-hero);
+      padding: 80px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -10%;
+      width: 40%;
+      height: 60%;
+      background: radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 70%);
+      filter: blur(60px);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(212,168,67,0.2);
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold-dark);
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .hero h1 .gold-text {
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      font-weight: 300;
+    }
+
+    .hero-subtitle-thai {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-light);
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      background: var(--gradient-gold);
+      color: white;
+      font-family: 'Prompt', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(212,168,67,0.35);
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      text-decoration: none;
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      background: rgba(255,255,255,0.7);
+      color: var(--gold-dark);
+      font-family: 'Prompt', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      border: 1.5px solid rgba(212,168,67,0.3);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,1);
+      border-color: var(--gold);
+    }
+
+    /* Trust Bar */
+    .trust-bar {
+      background: white;
+      border-top: 1px solid rgba(212,168,67,0.08);
+      border-bottom: 1px solid rgba(212,168,67,0.08);
+      padding: 20px 24px;
+    }
+
+    .trust-bar-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .trust-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--gradient-cream);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    /* Credit Section */
+    .credit-section {
+      padding: 60px 24px 70px;
+      background: linear-gradient(180deg, var(--cream-light) 0%, white 100%);
+    }
+
+    .credit-section-inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 15px;
+      color: var(--text-light);
+      margin-bottom: 36px;
+    }
+
+    .credit-card {
+      background: white;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212,168,67,0.1);
+    }
+
+    .credit-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-gold);
+    }
+
+    .credit-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .credit-shield {
+      width: 56px;
+      height: 56px;
+      background: var(--gradient-cream);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--gold);
+      margin: 0 auto 12px;
+      border: 1.5px solid rgba(212,168,67,0.15);
+    }
+
+    .credit-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .credit-display {
+      text-align: center;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    #credit-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 700;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    #credit-value.pop {
+      animation: credit-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .credit-unit {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .credit-bar-container {
+      margin: 20px 0 28px;
+      padding: 0 10px;
+    }
+
+    .credit-bar-bg {
+      height: 8px;
+      background: var(--cream);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .credit-bar-fill {
+      height: 100%;
+      background: var(--gradient-gold);
+      border-radius: 4px;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .credit-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    .credit-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn-add-credit {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      background: var(--gradient-gold);
+      color: white;
+      font-family: 'Prompt', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(212,168,67,0.3);
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn-add-credit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212,168,67,0.4);
+    }
+
+    .btn-add-credit:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-deduct-credit {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      background: white;
+      color: var(--text-secondary);
+      font-family: 'Prompt', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1.5px solid rgba(212,168,67,0.25);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-deduct-credit:hover {
+      background: var(--cream-light);
+      border-color: var(--gold);
+      color: var(--gold-dark);
+    }
+
+    .credit-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(212,168,67,0.1);
+    }
+
+    .credit-stat {
+      text-align: center;
+    }
+
+    .credit-stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold-dark);
+    }
+
+    .credit-stat-label {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      font-size: 16px;
+      animation: sparkle-float 0.8s ease-out forwards;
+    }
+
+    /* Product Grid (Mini showcase) */
+    .products-section {
+      padding: 60px 24px 80px;
+      background: white;
+    }
+
+    .products-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      border: 1px solid rgba(212,168,67,0.08);
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      background: var(--gradient-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      position: relative;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold-dark);
+      border: 1px solid rgba(212,168,67,0.15);
+    }
+
+    .product-info {
+      padding: 20px 22px 24px;
+    }
+
+    .product-category {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .product-price {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold-dark);
+    }
+
+    .btn-buy {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 20px;
+      background: var(--gradient-gold);
+      color: white;
+      font-family: 'Prompt', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-buy:hover {
+      box-shadow: 0 4px 12px rgba(212,168,67,0.3);
+      filter: brightness(1.05);
+    }
+
+    /* Testimonials */
+    .testimonials-section {
+      padding: 60px 24px 70px;
+      background: var(--gradient-cream);
+    }
+
+    .testimonials-grid {
+      max-width: 900px;
+      margin: 36px auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(212,168,67,0.08);
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .testimonial-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .testimonial-info div:first-child {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .testimonial-info div:last-child {
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text-primary);
+      color: rgba(255,255,255,0.6);
+      padding: 50px 24px 30px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand .logo-text {
+      background: var(--white);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+
+    .footer h4 {
+      color: white;
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold-light);
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      font-size: 12px;
+    }
 
     /* Modal Styles */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(61, 46, 30, 0.4); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
-    .modal-overlay.active { display: flex; animation: fadeIn 0.3s forwards; }
-    .modal { background: white; width: 100%; max-width: 440px; border-radius: var(--radius-xl); padding: 40px; position: relative; box-shadow: var(--shadow-xl); }
-    .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; text-align: left; }
-    .form-select, .form-textarea { width: 100%; padding: 14px; background: var(--cream-light); border: 1.5px solid rgba(212,168,67,0.1); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; margin-bottom: 24px; outline: none; transition: border-color 0.2s; }
-    .upload-area { border: 2px dashed rgba(212,168,67,0.25); padding: 32px 24px; border-radius: var(--radius-md); text-align: center; cursor: pointer; transition: all 0.2s; background: var(--cream-light); margin-bottom: 24px; }
-    .btn-submit { width: 100%; padding: 16px; background: #E53E3E; color: white; border: none; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(61, 46, 30, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-    .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text-primary); color: white; padding: 16px 32px; border-radius: 20px; font-weight: 500; font-size: 15px; box-shadow: var(--shadow-lg); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2000; white-space: nowrap; }
-    .toast.show { transform: translateX(-50%) translateY(0); }
+    .modal-overlay.active {
+      display: flex;
+      animation: fadeIn 0.3s forwards;
+    }
+
+    .modal {
+      background: white;
+      width: 100%;
+      max-width: 440px;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      padding: 36px;
+      position: relative;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    .modal-overlay.active .modal {
+      animation: fadeInUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cream);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--gold-light);
+      color: white;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      background: #FFF0F0;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #E53E3E;
+      margin: 0 auto 16px;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--cream-light);
+      border: 1.5px solid rgba(212,168,67,0.1);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: all 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(212, 168, 67, 0.1);
+    }
+
+    .upload-area {
+      border: 2px dashed rgba(212,168,67,0.25);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--cream-light);
+    }
+
+    .upload-area:hover {
+      background: var(--cream);
+      border-color: var(--gold);
+    }
+
+    .upload-icon {
+      font-size: 32px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .upload-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--gradient-gold);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(212,168,67,0.3);
+    }
+
+    .btn-submit:hover {
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text-primary);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-xl);
+      z-index: 2000;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .header-nav .nav-link {
+        display: none;
+      }
+
+      .hero {
+        padding: 50px 20px 70px;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .trust-bar-inner {
+        gap: 20px;
+        justify-content: flex-start;
+      }
+
+      .credit-actions {
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -107,177 +1045,469 @@
   <header class="header">
     <div class="header-inner">
       <a href="#" class="logo">
-        <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+        <div class="logo-icon">L</div>
         <span class="logo-text font-display">Luxury Lady</span>
       </a>
-      <button onclick="goShop()" class="btn-shop-now">Shop on TikTok</button>
+      <nav class="header-nav">
+        <a href="#products" class="nav-link">สินค้า</a>
+        <a href="#credits" class="nav-link">เครดิต</a>
+        <a href="#reviews" class="nav-link">รีวิว</a>
+        <button onclick="goShop()" class="btn-shop-now">
+          Shop Now <span>&rarr;</span>
+        </button>
+      </nav>
     </div>
   </header>
 
   <section class="hero">
-    <div class="animate-fade-in-up">
-      <h1 class="font-display">Effortless<br><span class="gold-text">Elegance</span></h1>
-      <p style="font-size: 18px; color: var(--text-secondary);">แฟชั่นคัดสรรสำหรับผู้หญิงยุคใหม่ที่ดูดีทุกวัน</p>
+    <div class="hero-content">
+      <div class="hero-badge animate-fade-in-up">
+        ✨ Trusted by 1,000+ Happy Customers
+      </div>
+      <h1 class="animate-fade-in-up animate-delay-1">
+        Effortless<br><span class="gold-text">Elegance</span>
+      </h1>
+      <p class="hero-subtitle animate-fade-in-up animate-delay-2">Curated fashion for the modern woman</p>
+      <p class="hero-subtitle-thai animate-fade-in-up animate-delay-2">แฟชั่นคัดสรรสำหรับผู้หญิงยุคใหม่ที่ดูดีทุกวัน</p>
+      <div class="hero-cta-group animate-fade-in-up animate-delay-3">
+        <button onclick="goShop()" class="btn-primary">
+          ซื้อสินค้าเลย
+        </button>
+        <a href="#credits" class="btn-secondary">
+          ดูเครดิตร้าน
+        </a>
+      </div>
     </div>
   </section>
+
+<div class="trust-bar">
+    <div class="trust-bar-inner">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/1161/1161388.png" width="20" height="20" alt="icon">
+        </div>
+        <span>ช้อปปิ้งปลอดภัย</span>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/709/709790.png" width="20" height="20" alt="icon">
+        </div>
+        <span>จัดส่งทั่วไทย</span>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/10552/10552223.png" width="20" height="20" alt="icon">
+        </div>
+        <span>สินค้าคุณภาพ</span>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/5962/5962463.png" width="20" height="20" alt="icon">
+        </div>
+        <span>ตอบแชทไว</span>
+      </div>
+    </div>
+</div>
+
 
   <section class="credit-section" id="credits">
-    <div class="credit-card animate-fade-in-up animate-delay-1">
-      <p style="font-weight: 700; color: var(--text-secondary); letter-spacing: 2px; font-size: 12px; text-transform: uppercase;">Reliability Score</p>
-      <div class="credit-display">
-        <div id="credit-value">219</div>
-      </div>
-      
-      <div style="display: flex; gap: 16px; margin-top: 8px;">
-        <button class="btn-add-credit" id="add-btn" onclick="addCredit(event)">
-          <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">💖 ให้เครดิตร้านค้า</span>
-        </button>
-        <button class="btn-deduct-credit" onclick="openDeductModal()">⚠️ รายงาน</button>
-      </div>
-      
-      <div style="display: flex; justify-content: space-around; margin-top: 40px; border-top: 1px solid var(--cream); padding-top: 32px;">
-        <div class="stat-item">
-          <div id="total-added" style="font-weight: 700; color: var(--gold-dark); font-size: 20px;">0</div>
-          <div style="font-size: 12px; color: var(--text-light); font-weight: 500;">ให้เครดิตวันนี้</div>
+    <div class="credit-section-inner">
+      <p class="section-label animate-fade-in-up">Social Proof</p>
+      <h2 class="section-title animate-fade-in-up animate-delay-1">Shop Credit Score</h2>
+      <p class="section-subtitle animate-fade-in-up animate-delay-2">เครดิตร้านค้า — ความน่าเชื่อถือจากลูกค้าจริง</p>
+
+      <div class="credit-card animate-fade-in-up animate-delay-3">
+        <div class="credit-header">
+          <div class="credit-shield">🏆</div>
+          <p class="credit-label">Reputation Score</p>
         </div>
-        <div class="stat-item">
-          <div style="font-weight: 700; color: var(--gold-dark); font-size: 20px;">100%</div>
-          <div style="font-size: 12px; color: var(--text-light); font-weight: 500;">ความพึงพอใจ</div>
+
+        <div class="credit-display" id="credit-display">
+          <div id="credit-value">219</div>
+          <p class="credit-unit">Credits</p>
+        </div>
+
+        <div class="credit-bar-container">
+          <div class="credit-bar-bg">
+            <div class="credit-bar-fill" id="credit-bar" style="width: 73%;"></div>
+          </div>
+          <div class="credit-bar-labels">
+            <span>0</span>
+            <span>Reliability Level 4.6</span>
+            <span>300</span>
+          </div>
+        </div>
+
+        <div class="credit-actions">
+          <button class="btn-add-credit" id="btn-add" onclick="addCredit()">
+            💖 +1 Credit
+          </button>
+          <button class="btn-deduct-credit" onclick="openDeductModal()">
+            ⚠️ -1 Report
+          </button>
+        </div>
+
+        <div class="credit-stats">
+          <div class="credit-stat">
+            <div class="credit-stat-value" id="total-added">0</div>
+            <div class="credit-stat-label">Added Today</div>
+          </div>
+          <div class="credit-stat">
+            <div class="credit-stat-value">100%</div>
+            <div class="credit-stat-label">Trust Rate</div>
+          </div>
+          <div class="credit-stat">
+            <div class="credit-stat-value">1.2K</div>
+            <div class="credit-stat-label">Supporters</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section style="padding: 0 24px 100px; max-width: 1200px; margin: 0 auto;">
-    <h2 class="font-display" style="text-align: center; margin-bottom: 40px; font-size: 32px;">รีวิวจากลูกค้าจริง</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-      <div style="background: white; padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--cream);">
-        <div style="color: var(--gold); margin-bottom: 12px;">⭐⭐⭐⭐⭐</div>
-        <p style="color: var(--text-secondary);">"งานสวยตรงปกมากค่ะ เนื้อผ้าดีเกินราคา จัดส่งไวมาก แนะนำร้านนี้เลยค่ะ"</p>
-        <div style="margin-top: 20px; font-weight: 600; font-size: 14px;">- คุณกัญญาณัฐ</div>
+  <section class="products-section" id="products">
+    <div class="section-label">Our Collection</div>
+    <h2 class="section-title">สินค้าแนะนำ</h2>
+
+    <div class="products-grid">
+      <div class="product-card animate-fade-in-up">
+        <div class="product-image">
+          <span>👗</span>
+          <span class="product-badge">Best Seller</span>
+        </div>
+        <div class="product-info">
+          <p class="product-category">Dress</p>
+          <h3 class="product-name font-display">Elegant Evening Dress</h3>
+          <div class="product-price-row">
+            <span class="product-price">฿590</span>
+          </div>
+          <button onclick="goShop()" class="btn-buy">
+            ซื้อสินค้า — Buy Now
+          </button>
+        </div>
       </div>
-      <div style="background: white; padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--cream);">
-        <div style="color: var(--gold); margin-bottom: 12px;">⭐⭐⭐⭐⭐</div>
-        <p style="color: var(--text-secondary);">"สั่งมาหลายรอบแล้วค่ะ ไม่เคยผิดหวังเลย บริการตอบแชทดีมากค่ะ"</p>
-        <div style="margin-top: 20px; font-weight: 600; font-size: 14px;">- คุณศิริพร</div>
+
+      <div class="product-card animate-fade-in-up animate-delay-1">
+        <div class="product-image">
+          <span>👜</span>
+        </div>
+        <div class="product-info">
+          <p class="product-category">Accessories</p>
+          <h3 class="product-name font-display">Minimalist Leather Bag</h3>
+          <div class="product-price-row">
+            <span class="product-price">฿850</span>
+          </div>
+          <button onclick="goShop()" class="btn-buy">
+            ซื้อสินค้า — Buy Now
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card animate-fade-in-up animate-delay-2">
+        <div class="product-image">
+          <span>👠</span>
+          <span class="product-badge">Trending</span>
+        </div>
+        <div class="product-info">
+          <p class="product-category">Shoes</p>
+          <h3 class="product-name font-display">Classy High Heels</h3>
+          <div class="product-price-row">
+            <span class="product-price">฿1,200</span>
+          </div>
+          <button onclick="goShop()" class="btn-buy">
+            ซื้อสินค้า — Buy Now
+          </button>
+        </div>
       </div>
     </div>
   </section>
+
+  <section class="testimonials-section" id="reviews">
+    <div class="section-label">Customer Feedback</div>
+    <h2 class="section-title">รีวิวจากลูกค้า</h2>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div style="color: var(--gold-light); margin-bottom: 12px; font-size: 14px;">★★★★★</div>
+        <p class="testimonial-text">"งานสวย้มากค่ะ สีตรงปก ผ้าดีสมราคา จัดส่งไวมาก แนะนำร้านนี้เลย"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div class="testimonial-info">
+            <div>Kanya_napa.</div>
+            <div>✓ Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div style="color: var(--gold-light); margin-bottom: 12px; font-size: 14px;">★★★★★</div>
+        <p class="testimonial-text">"ประทับใจการแพ็คของค่ะ เรียบร้อยมาก ชุดใส่พอดีตัวเป๊ะ ชอบมากค่ะ"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div class="testimonial-info">
+            <div>Siriwan.</div>
+            <div>✓ Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div style="color: var(--gold-light); margin-bottom: 12px; font-size: 14px;">★★★★★</div>
+        <p class="testimonial-text">"คุณภาพดีเกินราคา บริการหลังการขายดีมาก แม่ค้าพูดจาดีค่ะ"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">P</div>
+          <div class="testimonial-info">
+            <div>Pimchatra_9927.</div>
+            <div>✓ Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text font-display">Luxury Lady</span>
+        <p>แฟชั่นสำหรับผู้หญิงยุคใหม่ คัดสรรอย่างดีด้วยหัวใจ เพื่อความมั่นใจในทุกๆ วันของคุณ</p>
+      </div>
+
+      <div>
+        <h4>ร้านค้า</h4>
+        <ul class="footer-links">
+          <li><a href="#products">สินค้าทั้งหมด</a></li>
+          <li><a href="#credits">เครดิตร้านค้า</a></li>
+          <li><a href="#reviews">รีวิวจากลูกค้า</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>ติดต่อเรา</h4>
+        <ul class="footer-links">
+          <li><a href="https://www.tiktok.com/@long_laewlove" target="_blank">TikTok Shop</a></li>
+          <li><a href="#">LINE: @luxurylady</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2026 Luxury Lady — Premium Women's Shop. All rights reserved.
+    </div>
+  </footer>
 
   <div class="modal-overlay" id="deduct-modal">
     <div class="modal">
-      <button style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 28px; color: var(--text-light); cursor: pointer;" onclick="closeDeductModal()">&times;</button>
-      <div style="text-align: center; margin-bottom: 32px;">
-        <h3 class="font-display" style="font-size: 24px; color: var(--text-primary);">รายงานปัญหา</h3>
-        <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">ข้อมูลของคุณจะถูกส่งให้ทีมงานตรวจสอบ</p>
+      <button class="modal-close" onclick="closeDeductModal()">&times;</button>
+
+      <div class="modal-header">
+        <div class="modal-icon">📋</div>
+        <h3 class="modal-title">รายงานปัญหา</h3>
+        <p style="font-size: 14px; color: var(--text-light); margin-top: 8px;">กรุณากรอกเหตุผลและแนบภาพหลักฐาน</p>
       </div>
 
-      <label class="form-label">ระบุเหตุผลการรายงาน</label>
-      <select class="form-select" id="deduct-reason">
-        <option value="">เลือกเหตุผล...</option>
-        <option value="fake">สินค้าไม่ตรงปก / Fake Product</option>
-        <option value="late">จัดส่งล่าช้ามาก / Late Delivery</option>
-        <option value="service">บริการไม่สุภาพ / Bad Service</option>
-        <option value="other">อื่นๆ / Other</option>
-      </select>
-
-      <label class="form-label">แนบภาพหลักฐาน</label>
-      <div class="upload-area" onclick="document.getElementById('file-input').click()">
-        <svg style="width: 32px; height: 32px; color: var(--gold); margin-bottom: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        <div id="upload-text" style="font-size: 14px; color: var(--text-secondary);">คลิกเพื่ออัปโหลดภาพหลักฐาน</div>
-        <input type="file" id="file-input" style="display: none;" accept="image/*">
+      <div class="form-group">
+        <label class="form-label">เหตุผล / รายละเอียดปัญหา</label>
+        <textarea class="form-textarea" id="deduct-reason-text" rows="4" placeholder="กรุณาอธิบายปัญหาที่พบค่ะ เช่น สินค้าไม่ตรงปก, จัดส่งช้า, บริการไม่ดี..."></textarea>
       </div>
 
-      <button class="btn-submit" onclick="submitDeduction()">ส่งข้อมูลรายงาน</button>
+      <div class="form-group">
+        <label class="form-label">แนบภาพหลักฐาน (จำเป็น)</label>
+        <div class="upload-area" id="upload-zone">
+          <div class="upload-icon">📸</div>
+          <div class="upload-text">คลิกเพื่ออัปโหลดภาพหลักฐาน</div>
+          <input type="file" id="file-input" style="display: none;" accept="image/*">
+        </div>
+      </div>
+
+      <button class="btn-submit" onclick="submitDeduction()">
+        ส่งรายงาน
+      </button>
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
   <script>
-    // ===== SYSTEM CONFIG & LOCAL STORAGE (API) =====
-    const TIKTOK_URL = "https://www.tiktok.com/@long_laewlove";
-    
-    // ดึงแต้มจากเครื่องคนดู (กันรีเซ็ต)
-    let creditValue = parseInt(localStorage.getItem('luxury_credits')) || 219;
-    let totalAddedToday = parseInt(localStorage.getItem('luxury_added_today')) || 0;
+    // ===== CONFIGURATION =====
+    const TIKTOK_URL = "https://www.tiktok.com/@long_laewlove?_r=1&_t=ZS-94uw7I5ZBoI";
+    const STORAGE_KEY = "luxurylady_credit_v1";
+    const DEFAULT_CREDIT = 219;
+    const maxCredit = 300;
+
+    let creditValue = DEFAULT_CREDIT;
+    let totalAddedToday = 0;
     let proofAttached = false;
 
-    // แสดงผลแต้มทันทีที่โหลดหน้า
-    window.onload = () => {
+    // ===== PERSISTENT STORAGE: window.storage API + localStorage fallback =====
+    async function saveCredit() {
+      const data = JSON.stringify({
+        credit: creditValue,
+        today: totalAddedToday,
+        date: new Date().toDateString()
+      });
+      // ลองใช้ window.storage (Artifact persistent API) ก่อน
+      if (window.storage) {
+        try { await window.storage.set(STORAGE_KEY, data); return; } catch(e) {}
+      }
+      // Fallback: localStorage
+      try { localStorage.setItem(STORAGE_KEY, data); } catch(e) {}
+    }
+
+    async function loadCredit() {
+      let raw = null;
+      // ลองดึงจาก window.storage ก่อน
+      if (window.storage) {
+        try {
+          const result = await window.storage.get(STORAGE_KEY);
+          if (result && result.value) raw = result.value;
+        } catch(e) {}
+      }
+      // Fallback: localStorage
+      if (!raw) {
+        try { raw = localStorage.getItem(STORAGE_KEY); } catch(e) {}
+      }
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          creditValue = parseInt(parsed.credit) || DEFAULT_CREDIT;
+          if (parsed.date === new Date().toDateString()) {
+            totalAddedToday = parseInt(parsed.today) || 0;
+          } else {
+            totalAddedToday = 0;
+          }
+        } catch(e) {
+          creditValue = DEFAULT_CREDIT;
+          totalAddedToday = 0;
+        }
+      }
+    }
+
+    // ===== INITIALIZE =====
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadCredit();
       updateCreditDisplay();
-    };
 
-    function goShop() { window.open(TIKTOK_URL, '_blank'); }
+      // Intersection Observer for animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+          }
+        });
+      }, { threshold: 0.1 });
 
-    // ฟังก์ชันเพิ่มแต้ม + อนิเมชั่นเลขเด้ง
-    function addCredit(e) {
+      document.querySelectorAll('.animate-fade-in-up').forEach(el => observer.observe(el));
+    });
+
+    // ===== CORE FUNCTIONS =====
+    function goShop() {
+      window.open(TIKTOK_URL, '_blank');
+    }
+
+    async function addCredit() {
       creditValue++;
       totalAddedToday++;
-      
-      // บันทึกลง LocalStorage ทันที
-      localStorage.setItem('luxury_credits', creditValue);
-      localStorage.setItem('luxury_added_today', totalAddedToday);
 
-      // อนิเมชั่นตัวเลขเด้ง (เด้งทั้งแผงตามไฟล์เดิม)
       const valElement = document.getElementById("credit-value");
-      valElement.classList.remove("credit-pop-animation");
-      void valElement.offsetWidth; 
-      valElement.classList.add("credit-pop-animation");
+      valElement.textContent = creditValue;
+      valElement.classList.add("pop");
 
-      // สร้างตัวหนังสือ +1 ลอยขึ้น (จากตำแหน่งปุ่ม)
-      createPlusOne(e);
-      
+      createSparkle(event);
       updateCreditDisplay();
-      showToast("💖 ขอบคุณสำหรับเครดิตค่ะ!");
+      await saveCredit();
+      showToast("💖 ขอบคุณสำหรับเครดิตค่ะ! +1 Credit added");
+
+      setTimeout(() => valElement.classList.remove("pop"), 300);
     }
 
     function updateCreditDisplay() {
-      document.getElementById("credit-value").textContent = creditValue;
+      const bar = document.getElementById("credit-bar");
+      const percentage = (creditValue / maxCredit) * 100;
+      bar.style.width = Math.min(percentage, 100) + "%";
+
       document.getElementById("total-added").textContent = totalAddedToday;
+      document.getElementById("credit-value").textContent = creditValue;
     }
 
-    function createPlusOne(e) {
-      const plus = document.createElement("div");
-      plus.className = "plus-one";
-      plus.textContent = "+1";
-      plus.style.left = (e.clientX - 10) + "px";
-      plus.style.top = (e.clientY - 20) + "px";
-      document.body.appendChild(plus);
-      setTimeout(() => plus.remove(), 1000);
+    function createSparkle(e) {
+      const sparkle = document.createElement("div");
+      sparkle.className = "sparkle";
+      sparkle.innerHTML = "✨";
+      sparkle.style.left = (e.clientX - 10) + "px";
+      sparkle.style.top = (e.clientY - 10) + "px";
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => sparkle.remove(), 800);
     }
 
-    // ===== MODAL LOGIC (แก้ไขตามสั่ง: ไม่หักแต้ม) =====
-    function openDeductModal() { document.getElementById("deduct-modal").classList.add("active"); }
-    function closeDeductModal() { document.getElementById("deduct-modal").classList.remove("active"); }
+    // ===== MODAL LOGIC =====
+    function openDeductModal() {
+      document.getElementById("deduct-modal").classList.add("active");
+    }
 
-    document.getElementById("file-input").onchange = (e) => {
-      if (e.target.files.length > 0) {
-        proofAttached = true;
-        document.getElementById("upload-text").textContent = "✅ เลือกไฟล์แล้ว: " + e.target.files[0].name;
-      }
-    };
+    function closeDeductModal() {
+      document.getElementById("deduct-modal").classList.remove("active");
+      // Reset form
+      document.getElementById("deduct-reason-text").value = "";
+      proofAttached = false;
+      document.getElementById("upload-zone").style.borderColor = "rgba(212,67,67,0.1)";
+      document.querySelector(".upload-text").textContent = "คลิกเพื่ออัปโหลดภาพหลักฐาน";
+      document.getElementById("file-input").value = "";
+    }
+
+    // File upload
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById("upload-zone").onclick = () => document.getElementById("file-input").click();
+      document.getElementById("file-input").onchange = (e) => {
+        if (e.target.files.length > 0) {
+          proofAttached = true;
+          document.getElementById("upload-zone").style.borderColor = "var(--gold)";
+          document.querySelector(".upload-text").textContent = "✅ ไฟล์พร้อมแล้ว: " + e.target.files[0].name;
+        }
+      };
+    });
 
     function submitDeduction() {
-      const reason = document.getElementById("deduct-reason").value;
-      if (!reason) { showToast("⚠️ กรุณาระบุเหตุผล"); return; }
-      if (!proofAttached) { showToast("⚠️ กรุณาแนบภาพหลักฐาน"); return; }
+      const reason = document.getElementById("deduct-reason-text").value.trim();
 
-      // ไม่มีการหักแต้ม (ไม่มีคำสั่ง creditValue--)
-      showToast("📋 ขอบคุณสำหรับข้อมูล ทีมงานจะรีบตรวจสอบค่ะ");
+      if (!proofAttached) {
+        showToast("⚠️ กรุณาแนบหลักฐานภาพ / Please attach image proof");
+        return;
+      }
+      if (!reason) {
+        showToast("⚠️ กรุณากรอกเหตุผล / Please provide a reason");
+        return;
+      }
+
       closeDeductModal();
+      showToast("📋 ส่งรายงานเรียบร้อยแล้วค่ะ ขอบคุณสำหรับข้อมูลค่ะ 🙏");
     }
 
+    // ===== TOAST =====
     function showToast(message) {
       const toast = document.getElementById("toast");
-      toast.textContent = message;
+      toast.innerHTML = message;
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 2500);
     }
 
-    // Close modal on click overlay
-    document.addEventListener("click", (e) => {
-      if (e.target.id === "deduct-modal") closeDeductModal();
+    // Close modal on overlay click
+    document.addEventListener("click", function(e) {
+      if (e.target.id === "deduct-modal") {
+        closeDeductModal();
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function(e) {
+        const target = document.querySelector(this.getAttribute("href"));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     });
   </script>
 </body>
