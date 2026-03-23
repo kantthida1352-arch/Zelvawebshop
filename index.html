@@ -1216,31 +1216,11 @@ body {
   // ════════════════════════════════════════
   const JB_KEY    = "$2a$10$D.npn2DaVbVYsqYmCESRaO209UeESGuAHiZfke5o.D1.6ZB2jUT5.";
   const JB_API    = "https://api.jsonbin.io/v3/b";
-  const JB_BIN_LS = "ll_jb_bin_id"; // เก็บ bin ID ใน localStorage
-  let   _jbBinId  = null;
+  const JB_BIN_ID = "69c11df3aa77b81da90e9b29"; // hardcode — ทุก browser ใช้ bin เดียวกัน
+  let _jbBinId = JB_BIN_ID;
 
-  // สร้าง bin ใหม่ถ้ายังไม่มี
   async function jbGetBinId() {
-    if (_jbBinId) return _jbBinId;
-    const saved = localStorage.getItem(JB_BIN_LS);
-    if (saved) { _jbBinId = saved; return _jbBinId; }
-    // สร้างใหม่
-    try {
-      const res = await fetch(JB_API, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": JB_KEY,
-          "X-Bin-Name": "zelva-shop",
-          "X-Bin-Private": "false"
-        },
-        body: JSON.stringify({ settings:{}, featured:[], products:[], credit:{}, reviews:[] })
-      });
-      const d = await res.json();
-      _jbBinId = d.metadata.id;
-      localStorage.setItem(JB_BIN_LS, _jbBinId);
-      return _jbBinId;
-    } catch(e) { return null; }
+    return JB_BIN_ID;
   }
 
   // อ่านข้อมูลทั้งหมดจาก bin
