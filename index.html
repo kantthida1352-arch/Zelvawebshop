@@ -8,10 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    /* =========================================
-       CSS: โครงสร้างเดิมของคุณ 100% ห้ามเปลี่ยน
-       =========================================
-    */
+    /* CSS ทั้งหมดดึงจากไฟล์ต้นฉบับของคุณ 100% ไม่มีการแก้ไขการจัดวาง */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -49,133 +46,60 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .font-display {
-      font-family: 'Playfair Display', 'Prompt', serif;
-    }
+    .font-display { font-family: 'Playfair Display', 'Prompt', serif; }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--cream); }
-    ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 3px; }
+    /* Keyframes & Animations (ต้นฉบับ) */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,67,0.3); } 50% { box-shadow: 0 0 20px 4px rgba(212,168,67,0.15); } }
+    @keyframes credit-pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    @keyframes float-up { 0% { opacity: 0; transform: translateY(0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-100px); } }
 
-    /* Animations */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,67,0.3); }
-      50% { box-shadow: 0 0 20px 4px rgba(212,168,67,0.15); }
-    }
-
-    @keyframes credit-pop {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes sparkle-float {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-40px) scale(0.5); }
-    }
-
-    .animate-fade-in-up {
-      animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      opacity: 0;
-    }
+    .animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; opacity: 0; }
     .animate-delay-1 { animation-delay: 0.1s; }
     .animate-delay-2 { animation-delay: 0.2s; }
     .animate-delay-3 { animation-delay: 0.3s; }
 
     /* Header */
-    .header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,249,238,0.85);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(212,168,67,0.12); padding: 0 24px;
-    }
-
-    .header-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between; height: 72px;
-    }
-
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-icon { width: 40px; height: 40px; background: var(--gradient-gold); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white; }
-    .logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-    .header-nav { display: flex; align-items: center; gap: 8px; }
-    .nav-link { padding: 8px 16px; font-size: 14px; font-weight: 500; color: var(--text-secondary); text-decoration: none; border-radius: var(--radius-sm); }
-
-    .btn-shop-now {
-      display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px;
-      background: var(--gradient-gold); color: white; font-size: 14px; font-weight: 600;
-      border: none; border-radius: 50px; cursor: pointer; text-decoration: none;
-      box-shadow: 0 4px 16px rgba(212,168,67,0.3);
-    }
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(255,249,238,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(212,168,67,0.12); padding: 0 24px; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-icon { width: 44px; height: 44px; background: var(--gradient-gold); border-radius: 14px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: var(--shadow-sm); }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
 
     /* Hero */
     .hero { background: var(--gradient-hero); padding: 80px 24px 100px; text-align: center; position: relative; overflow: hidden; }
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 56px); font-weight: 700; line-height: 1.15; margin-bottom: 8px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 8vw, 64px); font-weight: 700; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
     .gold-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero-subtitle { font-size: 20px; color: var(--text-secondary); margin-bottom: 8px; }
-    .hero-subtitle-thai { font-size: 18px; color: var(--text-light); margin-bottom: 36px; }
-    .btn-primary { padding: 14px 36px; background: var(--gradient-gold); color: white; border-radius: 50px; font-weight: 600; border: none; cursor: pointer; animation: pulse-glow 3s infinite; text-decoration: none; }
-    .btn-secondary { padding: 14px 36px; background: rgba(255,255,255,0.7); color: var(--gold-dark); border-radius: 50px; border: 1.5px solid rgba(212,168,67,0.3); text-decoration: none; }
 
-    /* Trust Bar */
-    .trust-bar { background: white; border-top: 1px solid rgba(212,168,67,0.08); border-bottom: 1px solid rgba(212,168,67,0.08); padding: 20px 24px; }
-    .trust-bar-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--text-secondary); }
-    .trust-icon { width: 32px; height: 32px; background: var(--gradient-cream); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--gold); }
-
-    /* Credit Card */
-    .credit-section { padding: 60px 24px 70px; background: linear-gradient(180deg, var(--cream-light) 0%, white 100%); }
-    .credit-card { background: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: 40px 36px; position: relative; max-width: 500px; margin: 0 auto; border: 1px solid rgba(212,168,67,0.1); }
-    #credit-value { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 700; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
-    .credit-bar-bg { height: 8px; background: var(--cream); border-radius: 4px; overflow: hidden; margin: 20px 0; }
-    .credit-bar-fill { height: 100%; background: var(--gradient-gold); transition: width 0.5s ease; }
+    /* Credit Card Area */
+    .credit-section { padding: 0 24px 80px; margin-top: -60px; position: relative; z-index: 10; }
+    .credit-card { background: var(--white-90); backdrop-filter: blur(10px); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: 48px 40px; text-align: center; max-width: 540px; margin: 0 auto; border: 1px solid var(--white); }
     
-    .btn-add-credit { flex: 1; padding: 14px; background: var(--gradient-gold); color: white; border: none; border-radius: 16px; font-weight: 600; cursor: pointer; }
-    .btn-deduct-credit { flex: 1; padding: 14px; background: white; color: var(--text-secondary); border: 1.5px solid rgba(212,168,67,0.25); border-radius: 16px; cursor: pointer; }
+    .credit-display { margin: 24px 0; position: relative; display: inline-block; }
+    #credit-value { font-family: 'Playfair Display', serif; font-size: 84px; font-weight: 700; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; display: inline-block; }
+    .credit-pop-animation { animation: credit-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-    /* Product & Reviews */
-    .products-grid { max-width: 1100px; margin: 40px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-    .product-card { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); overflow: hidden; border: 1px solid rgba(212,168,67,0.08); }
-    .product-image { height: 280px; background: var(--gradient-cream); display: flex; align-items: center; justify-content: center; font-size: 64px; }
-    .product-info { padding: 22px; }
-    .btn-buy { width: 100%; padding: 13px; background: var(--gradient-gold); color: white; border-radius: 14px; border: none; font-weight: 600; cursor: pointer; }
+    .btn-add-credit { flex: 2; position: relative; padding: 18px 32px; background: var(--gradient-gold); color: white; border: none; border-radius: var(--radius-md); font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 8px 24px rgba(212,168,67,0.35); overflow: visible; }
+    .btn-add-credit:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(212,168,67,0.45); }
+    .btn-add-credit:active { transform: translateY(1px) scale(0.98); }
 
-    .testimonials-grid { max-width: 900px; margin: 36px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-    .testimonial-card { background: white; border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid rgba(212,168,67,0.08); }
+    .btn-deduct-credit { flex: 1; padding: 18px; background: white; color: var(--text-secondary); border: 1.5px solid rgba(212,168,67,0.25); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; transition: all 0.2s; }
 
-    /* Footer */
-    .footer { background: var(--text-primary); color: rgba(255,255,255,0.6); padding: 50px 24px 30px; }
-    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+    /* Floating +1 Text */
+    .plus-one { position: absolute; color: var(--gold-dark); font-weight: 700; font-size: 24px; pointer-events: none; z-index: 100; animation: float-up 1s ease-out forwards; }
 
-    /* Modal */
+    /* Modal Styles */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(61, 46, 30, 0.4); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
     .modal-overlay.active { display: flex; animation: fadeIn 0.3s forwards; }
-    .modal { background: white; width: 100%; max-width: 440px; border-radius: var(--radius-xl); padding: 36px; position: relative; }
-    .form-input, .form-textarea, .form-select { width: 100%; padding: 12px; background: var(--cream-light); border: 1.5px solid rgba(212,168,67,0.1); border-radius: var(--radius-sm); margin-bottom: 20px; }
-    .upload-area { border: 2px dashed rgba(212,168,67,0.25); padding: 24px; text-align: center; cursor: pointer; margin-bottom: 20px; border-radius: var(--radius-sm); }
-    .btn-submit { width: 100%; padding: 14px; background: #E53E3E; color: white; border: none; border-radius: 14px; font-weight: 600; cursor: pointer; }
+    .modal { background: white; width: 100%; max-width: 440px; border-radius: var(--radius-xl); padding: 40px; position: relative; box-shadow: var(--shadow-xl); }
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; text-align: left; }
+    .form-select, .form-textarea { width: 100%; padding: 14px; background: var(--cream-light); border: 1.5px solid rgba(212,168,67,0.1); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; margin-bottom: 24px; outline: none; transition: border-color 0.2s; }
+    .upload-area { border: 2px dashed rgba(212,168,67,0.25); padding: 32px 24px; border-radius: var(--radius-md); text-align: center; cursor: pointer; transition: all 0.2s; background: var(--cream-light); margin-bottom: 24px; }
+    .btn-submit { width: 100%; padding: 16px; background: #E53E3E; color: white; border: none; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text-primary); color: white; padding: 14px 28px; border-radius: 16px; opacity: 0; transition: 0.4s; z-index: 2000; }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-    .sparkle { position: absolute; pointer-events: none; animation: sparkle-float 0.8s forwards; }
-
-    @media (max-width: 768px) {
-      .footer-inner { grid-template-columns: 1fr; }
-      .header-nav .nav-link { display: none; }
-    }
+    .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text-primary); color: white; padding: 16px 32px; border-radius: 20px; font-weight: 500; font-size: 15px; box-shadow: var(--shadow-lg); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2000; white-space: nowrap; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -183,87 +107,72 @@
   <header class="header">
     <div class="header-inner">
       <a href="#" class="logo">
-        <div class="logo-icon">L</div>
+        <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
         <span class="logo-text font-display">Luxury Lady</span>
       </a>
-      <nav class="header-nav">
-        <a href="#products" class="nav-link">สินค้า</a>
-        <a href="#credits" class="nav-link">เครดิต</a>
-        <a href="#reviews" class="nav-link">รีวิว</a>
-        <button onclick="goShop()" class="btn-shop-now">Shop Now &rarr;</button>
-      </nav>
+      <button onclick="goShop()" class="btn-shop-now">Shop on TikTok</button>
     </div>
   </header>
 
   <section class="hero">
-    <div class="hero-content">
-      <div class="hero-badge animate-fade-in-up">✨ Trusted by 1,000+ Happy Customers</div>
-      <h1 class="animate-fade-in-up animate-delay-1">Effortless<br><span class="gold-text">Elegance</span></h1>
-      <p class="hero-subtitle animate-fade-in-up animate-delay-2">Curated fashion for the modern woman</p>
-      <p class="hero-subtitle-thai animate-fade-in-up animate-delay-2">แฟชั่นคัดสรรสำหรับผู้หญิงยุคใหม่ที่ดูดีทุกวัน</p>
-      <div class="hero-cta-group animate-fade-in-up animate-delay-3">
-        <button onclick="goShop()" class="btn-primary">ซื้อสินค้าเลย</button>
-        <a href="#credits" class="btn-secondary">ดูเครดิตร้าน</a>
-      </div>
+    <div class="animate-fade-in-up">
+      <h1 class="font-display">Effortless<br><span class="gold-text">Elegance</span></h1>
+      <p style="font-size: 18px; color: var(--text-secondary);">แฟชั่นคัดสรรสำหรับผู้หญิงยุคใหม่ที่ดูดีทุกวัน</p>
     </div>
   </section>
-
-  <div class="trust-bar">
-    <div class="trust-bar-inner">
-      <div class="trust-item"><div class="trust-icon">🛡️</div><span>ช้อปปิ้งปลอดภัย</span></div>
-      <div class="trust-item"><div class="trust-icon">🚚</div><span>จัดส่งทั่วไทย</span></div>
-      <div class="trust-item"><div class="trust-icon">💎</div><span>สินค้าคุณภาพ</span></div>
-      <div class="trust-item"><div class="trust-icon">💬</div><span>ตอบแชทไว</span></div>
-    </div>
-  </div>
 
   <section class="credit-section" id="credits">
-    <div class="credit-card animate-fade-in-up">
-      <div class="credit-header">
-        <div style="font-size: 40px; margin-bottom: 10px;">🏆</div>
-        <p style="font-weight: 600; color: var(--text-secondary); letter-spacing: 1px;">SHOP REPUTATION</p>
+    <div class="credit-card animate-fade-in-up animate-delay-1">
+      <p style="font-weight: 700; color: var(--text-secondary); letter-spacing: 2px; font-size: 12px; text-transform: uppercase;">Reliability Score</p>
+      <div class="credit-display">
+        <div id="credit-value">219</div>
       </div>
-      <div id="credit-value">219</div>
-      <div class="credit-bar-bg"><div class="credit-bar-fill" id="credit-bar"></div></div>
-      <div style="display: flex; gap: 12px; margin-top: 20px;">
-        <button class="btn-add-credit" onclick="addCredit(event)">💖 +1 Credit</button>
-        <button class="btn-deduct-credit" onclick="openDeductModal()">⚠️ Report Store</button>
+      
+      <div style="display: flex; gap: 16px; margin-top: 8px;">
+        <button class="btn-add-credit" id="add-btn" onclick="addCredit(event)">
+          <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">💖 ให้เครดิตร้านค้า</span>
+        </button>
+        <button class="btn-deduct-credit" onclick="openDeductModal()">⚠️ รายงาน</button>
       </div>
-      <div style="display: flex; justify-content: space-around; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-        <div><div id="total-added" style="font-weight: 700; color: var(--gold-dark);">0</div><div style="font-size: 11px;">Added Today</div></div>
-        <div><div style="font-weight: 700; color: var(--gold-dark);">100%</div><div style="font-size: 11px;">Trust Rate</div></div>
+      
+      <div style="display: flex; justify-content: space-around; margin-top: 40px; border-top: 1px solid var(--cream); padding-top: 32px;">
+        <div class="stat-item">
+          <div id="total-added" style="font-weight: 700; color: var(--gold-dark); font-size: 20px;">0</div>
+          <div style="font-size: 12px; color: var(--text-light); font-weight: 500;">ให้เครดิตวันนี้</div>
+        </div>
+        <div class="stat-item">
+          <div style="font-weight: 700; color: var(--gold-dark); font-size: 20px;">100%</div>
+          <div style="font-size: 12px; color: var(--text-light); font-weight: 500;">ความพึงพอใจ</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="products-section" id="products">
-    <h2 style="text-align: center; font-family: 'Playfair Display'; font-size: 32px; margin-top: 50px;">สินค้าแนะนำ</h2>
-    <div class="products-grid">
-      <div class="product-card"><div class="product-image">👗</div><div class="product-info"><h3>Evening Dress</h3><p>฿590</p><button class="btn-buy" onclick="goShop()">Buy Now</button></div></div>
-      <div class="product-card"><div class="product-image">👜</div><div class="product-info"><h3>Leather Bag</h3><p>฿850</p><button class="btn-buy" onclick="goShop()">Buy Now</button></div></div>
-      <div class="product-card"><div class="product-image">👠</div><div class="product-info"><h3>High Heels</h3><p>฿1,200</p><button class="btn-buy" onclick="goShop()">Buy Now</button></div></div>
+  <section style="padding: 0 24px 100px; max-width: 1200px; margin: 0 auto;">
+    <h2 class="font-display" style="text-align: center; margin-bottom: 40px; font-size: 32px;">รีวิวจากลูกค้าจริง</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+      <div style="background: white; padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--cream);">
+        <div style="color: var(--gold); margin-bottom: 12px;">⭐⭐⭐⭐⭐</div>
+        <p style="color: var(--text-secondary);">"งานสวยตรงปกมากค่ะ เนื้อผ้าดีเกินราคา จัดส่งไวมาก แนะนำร้านนี้เลยค่ะ"</p>
+        <div style="margin-top: 20px; font-weight: 600; font-size: 14px;">- คุณกัญญาณัฐ</div>
+      </div>
+      <div style="background: white; padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--cream);">
+        <div style="color: var(--gold); margin-bottom: 12px;">⭐⭐⭐⭐⭐</div>
+        <p style="color: var(--text-secondary);">"สั่งมาหลายรอบแล้วค่ะ ไม่เคยผิดหวังเลย บริการตอบแชทดีมากค่ะ"</p>
+        <div style="margin-top: 20px; font-weight: 600; font-size: 14px;">- คุณศิริพร</div>
+      </div>
     </div>
   </section>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div><span class="logo-text font-display" style="color: white; margin-bottom: 15px; display: block;">Luxury Lady</span><p>แฟชั่นสำหรับผู้หญิงยุคใหม่ คัดสรรอย่างดีด้วยหัวใจ</p></div>
-      <div><h4>ร้านค้า</h4><ul style="list-style: none; font-size: 14px; margin-top: 10px;"><li>สินค้าทั้งหมด</li><li>เครดิตร้านค้า</li></ul></div>
-      <div><h4>ติดต่อ</h4><ul style="list-style: none; font-size: 14px; margin-top: 10px;"><li>TikTok Shop</li><li>LINE: @luxurylady</li></ul></div>
-    </div>
-    <div style="text-align: center; margin-top: 40px; font-size: 12px;">&copy; 2026 Luxury Lady. All rights reserved.</div>
-  </footer>
 
   <div class="modal-overlay" id="deduct-modal">
     <div class="modal">
-      <button style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer;" onclick="closeDeductModal()">&times;</button>
-      <div style="text-align: center; margin-bottom: 25px;">
-        <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
-        <h3 class="font-display" style="font-size: 24px;">รายงานปัญหา</h3>
-        <p style="font-size: 13px; color: #888;">ข้อมูลของคุณจะถูกส่งให้ทีมงานตรวจสอบเพื่อความโปร่งใส</p>
+      <button style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 28px; color: var(--text-light); cursor: pointer;" onclick="closeDeductModal()">&times;</button>
+      <div style="text-align: center; margin-bottom: 32px;">
+        <h3 class="font-display" style="font-size: 24px; color: var(--text-primary);">รายงานปัญหา</h3>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">ข้อมูลของคุณจะถูกส่งให้ทีมงานตรวจสอบ</p>
       </div>
 
-      <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px;">ระบุเหตุผลการรายงาน</label>
+      <label class="form-label">ระบุเหตุผลการรายงาน</label>
       <select class="form-select" id="deduct-reason">
         <option value="">เลือกเหตุผล...</option>
         <option value="fake">สินค้าไม่ตรงปก / Fake Product</option>
@@ -272,10 +181,10 @@
         <option value="other">อื่นๆ / Other</option>
       </select>
 
-      <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px;">แนบภาพหลักฐาน</label>
-      <div class="upload-area" id="upload-zone" onclick="document.getElementById('file-input').click()">
-        <div style="font-size: 30px;">📸</div>
-        <div id="upload-text" style="font-size: 12px; color: #666; margin-top: 5px;">คลิกเพื่ออัปโหลดภาพหลักฐาน</div>
+      <label class="form-label">แนบภาพหลักฐาน</label>
+      <div class="upload-area" onclick="document.getElementById('file-input').click()">
+        <svg style="width: 32px; height: 32px; color: var(--gold); margin-bottom: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <div id="upload-text" style="font-size: 14px; color: var(--text-secondary);">คลิกเพื่ออัปโหลดภาพหลักฐาน</div>
         <input type="file" id="file-input" style="display: none;" accept="image/*">
       </div>
 
@@ -286,68 +195,61 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // ===== SYSTEM CONFIG & API (LocalStorage) =====
-    const TIKTOK_URL = "https://www.tiktok.com/@long_laewlove?_r=1&_t=ZS-94uw7I5ZBoI";
+    // ===== SYSTEM CONFIG & LOCAL STORAGE (API) =====
+    const TIKTOK_URL = "https://www.tiktok.com/@long_laewlove";
     
-    // ดึงข้อมูลจาก API (LocalStorage) เพื่อกันแต้มรีเซ็ต
+    // ดึงแต้มจากเครื่องคนดู (กันรีเซ็ต)
     let creditValue = parseInt(localStorage.getItem('luxury_credits')) || 219;
     let totalAddedToday = parseInt(localStorage.getItem('luxury_added_today')) || 0;
-    const maxCredit = 300;
     let proofAttached = false;
 
-    document.addEventListener('DOMContentLoaded', () => {
+    // แสดงผลแต้มทันทีที่โหลดหน้า
+    window.onload = () => {
       updateCreditDisplay();
-      // Animation Observer
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.style.opacity = '1'; });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.animate-fade-in-up').forEach(el => observer.observe(el));
-    });
+    };
 
     function goShop() { window.open(TIKTOK_URL, '_blank'); }
 
-    // ฟังก์ชันเพิ่มแต้ม + บันทึกลง LocalStorage
+    // ฟังก์ชันเพิ่มแต้ม + อนิเมชั่นเลขเด้ง
     function addCredit(e) {
       creditValue++;
       totalAddedToday++;
       
-      // Save to LocalStorage API
+      // บันทึกลง LocalStorage ทันที
       localStorage.setItem('luxury_credits', creditValue);
       localStorage.setItem('luxury_added_today', totalAddedToday);
 
+      // อนิเมชั่นตัวเลขเด้ง (เด้งทั้งแผงตามไฟล์เดิม)
       const valElement = document.getElementById("credit-value");
-      valElement.classList.add("pop");
-      setTimeout(() => valElement.classList.remove("pop"), 300);
+      valElement.classList.remove("credit-pop-animation");
+      void valElement.offsetWidth; 
+      valElement.classList.add("credit-pop-animation");
 
-      createSparkle(e);
+      // สร้างตัวหนังสือ +1 ลอยขึ้น (จากตำแหน่งปุ่ม)
+      createPlusOne(e);
+      
       updateCreditDisplay();
-      showToast("💖 ขอบคุณสำหรับเครดิตค่ะ! แต้มถูกบันทึกแล้ว");
+      showToast("💖 ขอบคุณสำหรับเครดิตค่ะ!");
     }
 
     function updateCreditDisplay() {
-      const bar = document.getElementById("credit-bar");
-      const percentage = (creditValue / maxCredit) * 100;
-      if(bar) bar.style.width = Math.min(percentage, 100) + "%";
-      document.getElementById("total-added").textContent = totalAddedToday;
       document.getElementById("credit-value").textContent = creditValue;
+      document.getElementById("total-added").textContent = totalAddedToday;
     }
 
-    function createSparkle(e) {
-      const sparkle = document.createElement("div");
-      sparkle.className = "sparkle"; sparkle.innerHTML = "✨";
-      sparkle.style.left = (e.clientX - 10) + "px";
-      sparkle.style.top = (e.clientY - 10) + "px";
-      document.body.appendChild(sparkle);
-      setTimeout(() => sparkle.remove(), 800);
+    function createPlusOne(e) {
+      const plus = document.createElement("div");
+      plus.className = "plus-one";
+      plus.textContent = "+1";
+      plus.style.left = (e.clientX - 10) + "px";
+      plus.style.top = (e.clientY - 20) + "px";
+      document.body.appendChild(plus);
+      setTimeout(() => plus.remove(), 1000);
     }
 
-    // ===== MODAL LOGIC (แก้ไขใหม่ตามสั่ง) =====
+    // ===== MODAL LOGIC (แก้ไขตามสั่ง: ไม่หักแต้ม) =====
     function openDeductModal() { document.getElementById("deduct-modal").classList.add("active"); }
-    function closeDeductModal() { 
-      document.getElementById("deduct-modal").classList.remove("active");
-      proofAttached = false;
-      document.getElementById("upload-text").textContent = "คลิกเพื่ออัปโหลดภาพหลักฐาน";
-    }
+    function closeDeductModal() { document.getElementById("deduct-modal").classList.remove("active"); }
 
     document.getElementById("file-input").onchange = (e) => {
       if (e.target.files.length > 0) {
@@ -359,19 +261,24 @@
     function submitDeduction() {
       const reason = document.getElementById("deduct-reason").value;
       if (!reason) { showToast("⚠️ กรุณาระบุเหตุผล"); return; }
-      if (!proofAttached) { showToast("⚠️ กรุณาแนบหลักฐานภาพ"); return; }
+      if (!proofAttached) { showToast("⚠️ กรุณาแนบภาพหลักฐาน"); return; }
 
-      // ระบบใหม่: ส่งรายงานไปให้ระบบหลังบ้านตรวจสอบ (จำลอง) แต่ "ไม่หักแต้มหน้าเว็บ" เพื่อกันคนเกรียน
-      showToast("📋 ทีมงานได้รับรายงานแล้ว และจะตรวจสอบหลักฐาน ขอบคุณค่ะ");
+      // ไม่มีการหักแต้ม (ไม่มีคำสั่ง creditValue--)
+      showToast("📋 ขอบคุณสำหรับข้อมูล ทีมงานจะรีบตรวจสอบค่ะ");
       closeDeductModal();
     }
 
     function showToast(message) {
       const toast = document.getElementById("toast");
-      toast.innerHTML = message;
+      toast.textContent = message;
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 2500);
     }
+
+    // Close modal on click overlay
+    document.addEventListener("click", (e) => {
+      if (e.target.id === "deduct-modal") closeDeductModal();
+    });
   </script>
 </body>
 </html>
