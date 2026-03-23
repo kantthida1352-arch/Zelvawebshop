@@ -1212,74 +1212,85 @@ body {
   let settings = {};
 
   // ════════════════════════════════════════
-  // GITHUB PERSISTENT STORAGE CONFIG
+  // JSONBIN PERSISTENT STORAGE
   // ════════════════════════════════════════
-  const GH_TOKEN  = atob("Z2hwX2NqQmREUlVhdlN1Vm1qbzlHMVo1TzNTVkFZenFuVjNUT2phcg==");
-  const GH_OWNER  = "kantthida1352-arch";
-  const GH_REPO   = "Zelvawebshop";
-  const GH_BRANCH = "main";
-  const GH_API    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/`;
+  const JB_KEY    = "$2a$10$D.npn2DaVbVYsqYmCESRaO209UeESGuAHiZfke5o.D1.6ZB2jUT5.";
+  const JB_API    = "https://api.jsonbin.io/v3/b";
+  const JB_BIN_LS = "ll_jb_bin_id"; // เก็บ bin ID ใน localStorage
+  let   _jbBinId  = null;
 
-  // เก็บ SHA ของแต่ละไฟล์ (ต้องใช้ตอน update)
-  const _fileSHAs = {};
-
-  async function ghRead(filename) {
+  // สร้าง bin ใหม่ถ้ายังไม่มี
+  async function jbGetBinId() {
+    if (_jbBinId) return _jbBinId;
+    const saved = localStorage.getItem(JB_BIN_LS);
+    if (saved) { _jbBinId = saved; return _jbBinId; }
+    // สร้างใหม่
     try {
-      const res = await fetch(`${GH_API}data/${filename}`, {
-        headers: { Authorization: `token ${GH_TOKEN}`, Accept: "application/vnd.github.v3+json" }
+      const res = await fetch(JB_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": JB_KEY,
+          "X-Bin-Name": "zelva-shop",
+          "X-Bin-Private": "false"
+        },
+        body: JSON.stringify({ settings:{}, featured:[], products:[], credit:{}, reviews:[] })
       });
-      if (!res.ok) return null;
-      const json = await res.json();
-      _fileSHAs[filename] = json.sha;
-      const content = atob(json.content.replace(/\n/g, ""));
-      return JSON.parse(content);
+      const d = await res.json();
+      _jbBinId = d.metadata.id;
+      localStorage.setItem(JB_BIN_LS, _jbBinId);
+      return _jbBinId;
     } catch(e) { return null; }
   }
 
-  async function ghSave(filename, data) {
+  // อ่านข้อมูลทั้งหมดจาก bin
+  async function jbReadAll() {
     try {
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-      const body = {
-        message: `update ${filename}`,
-        content,
-        branch: GH_BRANCH,
-      };
-      if (_fileSHAs[filename]) body.sha = _fileSHAs[filename];
+      const id = await jbGetBinId();
+      if (!id) return null;
+      const res = await fetch(`${JB_API}/${id}/latest`, {
+        headers: { "X-Master-Key": JB_KEY }
+      });
+      if (!res.ok) return null;
+      const d = await res.json();
+      return d.record;
+    } catch(e) { return null; }
+  }
 
-      const res = await fetch(`${GH_API}data/${filename}`, {
+  // เขียนข้อมูลทั้งหมดลง bin
+  async function jbWriteAll(record) {
+    try {
+      const id = await jbGetBinId();
+      if (!id) return false;
+      const res = await fetch(`${JB_API}/${id}`, {
         method: "PUT",
         headers: {
-          Authorization: `token ${GH_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-Master-Key": JB_KEY
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(record)
       });
-      if (!res.ok) {
-        // อาจ SHA หมดอายุ ดึงใหม่แล้วลองอีกครั้ง
-        const cur = await fetch(`${GH_API}data/${filename}`, {
-          headers: { Authorization: `token ${GH_TOKEN}` }
-        });
-        if (cur.ok) {
-          const j = await cur.json();
-          _fileSHAs[filename] = j.sha;
-          body.sha = j.sha;
-          const res2 = await fetch(`${GH_API}data/${filename}`, {
-            method: "PUT",
-            headers: { Authorization: `token ${GH_TOKEN}`, "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-          });
-          if (res2.ok) { const d = await res2.json(); _fileSHAs[filename] = d.content.sha; return true; }
-        }
-        return false;
-      }
-      const d = await res.json();
-      _fileSHAs[filename] = d.content.sha;
-      return true;
+      return res.ok;
     } catch(e) { return false; }
   }
 
-  // ── localStorage fallback (เร็ว ใช้ระหว่าง session) ──
+  // cache ข้อมูลทั้งหมดใน memory
+  let _jbCache = null;
+
+  async function jbLoad(field, defaultVal) {
+    if (!_jbCache) _jbCache = await jbReadAll();
+    if (_jbCache && _jbCache[field] !== undefined) return _jbCache[field];
+    return ls(field) || defaultVal;
+  }
+
+  async function jbSave(field, data) {
+    lsSave(field, data); // local ก่อนทันที
+    if (!_jbCache) _jbCache = await jbReadAll() || {};
+    _jbCache[field] = data;
+    return await jbWriteAll(_jbCache);
+  }
+
+  // ── localStorage helpers ──
   function ls(key) {
     try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch(e) { return null; }
   }
@@ -1287,21 +1298,25 @@ body {
     try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch(e) { return false; }
   }
 
-  // ── save ทั้ง localStorage (ทันที) และ GitHub (ถาวร) ──
+  // ── wrappers ที่โค้ดเก่าเรียกใช้ ──
   async function persistSave(ghFile, lsKey, data) {
-    lsSave(lsKey, data); // บันทึก local ก่อนทันที
-    const ok = await ghSave(ghFile, data);
+    const field = ghFile.replace(".json","");
+    lsSave(lsKey, data);
+    const ok = await jbSave(field, data);
     return ok;
   }
 
-  // ── load: ลอง GitHub ก่อน ถ้าไม่ได้ใช้ localStorage ──
   async function persistLoad(ghFile, lsKey, defaultVal) {
-    const ghData = await ghRead(ghFile);
-    if (ghData !== null) {
-      lsSave(lsKey, ghData); // sync ลง local ด้วย
-      return ghData;
-    }
-    return ls(lsKey) || defaultVal;
+    const field = ghFile.replace(".json","");
+    const data = await jbLoad(field, defaultVal);
+    lsSave(lsKey, data);
+    return data;
+  }
+
+  // ghSave ที่โค้ดเก่าเรียก (credit) — แมปไปที่ jbSave
+  function ghSave(filename, data) {
+    const field = filename.replace(".json","");
+    return jbSave(field, data);
   }
 
   // save image separately per product (key = "ll_img_feat_0" etc.)
