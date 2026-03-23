@@ -1399,10 +1399,8 @@ body {
   // PRODUCTS
   // ════════════════════════════════════════
   async function loadProducts() {
-    const rawFeatured = await persistLoad("featured.json", FEATURED_KEY, DEFAULT_FEATURED);
-    const rawAll      = await persistLoad("products.json", PRODUCTS_KEY, DEFAULT_PRODUCTS);
-    featuredProducts  = rawFeatured.map((p, i) => ({ ...p, imageUrl: loadImg('feat', i) }));
-    allProducts       = rawAll.map((p, i)      => ({ ...p, imageUrl: loadImg('allp', i) }));
+    featuredProducts = await persistLoad("featured.json", FEATURED_KEY, DEFAULT_FEATURED);
+    allProducts      = await persistLoad("products.json", PRODUCTS_KEY, DEFAULT_PRODUCTS);
   }
 
   function renderProductCard(p, showBadge = true) {
@@ -1932,21 +1930,17 @@ body {
 
   async function saveFeatured() {
     featuredProducts = featuredProducts.map((_,i) => getProductFromEditor('feat', i));
-    featuredProducts.forEach((p, i) => saveImg('feat', i, p.imageUrl || ''));
-    const stripped = featuredProducts.map(stripImg);
     showToast("⏳ กำลังบันทึก...");
-    const ok = await persistSave("featured.json", FEATURED_KEY, stripped);
+    const ok = await persistSave("featured.json", FEATURED_KEY, featuredProducts);
     renderFeaturedProducts();
-    showToast(ok ? "✅ บันทึกสินค้าแนะนำสำเร็จค่ะ!" : "⚠️ GitHub ไม่ตอบสนอง แต่เซฟ local แล้วค่ะ");
+    showToast(ok ? "✅ บันทึกสินค้าแนะนำสำเร็จค่ะ!" : "⚠️ บันทึกไม่สำเร็จ ลองใหม่ค่ะ");
   }
 
   async function saveAllProducts() {
     allProducts = allProducts.map((_,i) => getProductFromEditor('allp', i));
-    allProducts.forEach((p, i) => saveImg('allp', i, p.imageUrl || ''));
-    const stripped = allProducts.map(stripImg);
     showToast("⏳ กำลังบันทึก...");
-    const ok = await persistSave("products.json", PRODUCTS_KEY, stripped);
-    showToast(ok ? "✅ บันทึกสินค้าทั้งหมดสำเร็จค่ะ!" : "⚠️ GitHub ไม่ตอบสนอง แต่เซฟ local แล้วค่ะ");
+    const ok = await persistSave("products.json", PRODUCTS_KEY, allProducts);
+    showToast(ok ? "✅ บันทึกสินค้าทั้งหมดสำเร็จค่ะ!" : "⚠️ บันทึกไม่สำเร็จ ลองใหม่ค่ะ");
   }
 
   function resetAllData() {
