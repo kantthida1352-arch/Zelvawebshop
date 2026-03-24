@@ -956,51 +956,107 @@ async function persistLoad(f,lsKey,def){const d=await jbLoad(f.replace('.json','
 // ════════════════════════════════════
 // INIT
 // ════════════════════════════════════
-document.addEventListener('DOMContentLoaded',async()=>{
-  showLoadingOverlay(true);
-  _jbCache=await jbReadAll();
-  await loadSettings();
-  await loadCredit();
-  await loadProducts();
-  loadWishlist();
-  loadStats();
-  renderFeaturedProducts();
-  updateCreditDisplay();
-  updateStatsDisplay();
-  showLoadingOverlay(false);
+// ── SYNC init (ทำงานก่อน ไม่มี async ไม่หยุด onclick) ──
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    // Dark mode (sync)
+    if(ls('ll_darkmode')) document.body.classList.add('dark');
 
-  // Dark mode
-  if(ls('ll_darkmode'))document.body.classList.add('dark');
+    // Load wishlist, stats (sync)
+    loadWishlist();
+    loadStats();
 
-  // Popup ad
-  if(settings.popupEnabled!==false){
-    const lastPopup=ls('ll_last_popup');
-    const today=new Date().toDateString();
-    if(lastPopup!==today){
-      setTimeout(()=>{showPopupAd()},1500);
-      lsSave('ll_last_popup',today);
+    // Credit from localStorage (sync fallback)
+    var savedCredit = ls('ll_credit_v2');
+    if(savedCredit) {
+      creditValue = savedCredit.credit || 219;
+      totalAddedToday = savedCredit.date === new Date().toDateString() ? (savedCredit.today||0) : 0;
     }
+    updateCreditDisplay();
+    updateStatsDisplay();
+
+    // Products from localStorage (sync fallback)
+    var savedFeat = ls('ll_featured_v2');
+    var savedAll  = ls('ll_products_v2');
+    if(savedFeat) featuredProducts = savedFeat;
+    if(savedAll)  allProducts = savedAll;
+    renderFeaturedProducts();
+
+    // File upload
+    var fileInput = document.getElementById("file-input");
+    var uploadZone = document.getElementById("upload-zone");
+    if(fileInput) fileInput.addEventListener("change", function(e) {
+      if(e.target.files.length>0){
+        proofAttached=true;
+        var zone=document.getElementById("upload-zone");
+        if(zone) zone.style.borderColor="#D4A843";
+        var txt=document.querySelector(".upload-text");
+        if(txt) txt.textContent="✅ "+e.target.files[0].name;
+      }
+    });
+    if(uploadZone) uploadZone.addEventListener("click", function(){ if(fileInput) fileInput.click(); });
+
+    // Scroll animations
+    if(window.IntersectionObserver) {
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting) e.target.style.opacity='1'; });
+      }, {threshold:0.1});
+      document.querySelectorAll('.animate-fade-in-up').forEach(function(el){ obs.observe(el); });
+    } else {
+      document.querySelectorAll('.animate-fade-in-up').forEach(function(el){ el.style.opacity='1'; });
+    }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener("click", function(e){
+        var t=document.querySelector(this.getAttribute("href"));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+      });
+    });
+
+    // Back to top
+    window.addEventListener('scroll', function(){
+      var btn=document.getElementById('btn-top');
+      if(btn) btn.classList.toggle('show', window.scrollY>400);
+    });
+
+  } catch(e) {
+    console.error('Init error:', e);
   }
 
-  // Track visit
-  trackVisit();
-
-  // File upload
-  document.getElementById("file-input").addEventListener("change",(e)=>{
-    if(e.target.files.length>0){proofAttached=true;document.getElementById("upload-zone").style.borderColor="#D4A843";document.querySelector(".upload-text").textContent="✅ "+e.target.files[0].name}
-  });
-  document.getElementById("upload-zone").addEventListener("click",()=>document.getElementById("file-input").click());
-
-  // Scroll animations
-  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.style.opacity='1'}),{threshold:0.1});
-  document.querySelectorAll('.animate-fade-in-up').forEach(el=>obs.observe(el));
-
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener("click",function(e){const t=document.querySelector(this.getAttribute("href"));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
-
-  // Back to top
-  window.addEventListener('scroll',()=>{document.getElementById('btn-top').classList.toggle('show',window.scrollY>400)});
+  // ── ASYNC init (โหลดข้อมูลจาก JSONbin หลังจาก UI พร้อมแล้ว) ──
+  setTimeout(function() {
+    asyncInit();
+  }, 100);
 });
+
+async function asyncInit() {
+  try {
+    showLoadingOverlay(true);
+    _jbCache = await jbReadAll();
+    await loadSettings();
+    await loadCredit();
+    await loadProducts();
+    renderFeaturedProducts();
+    updateCreditDisplay();
+    updateStatsDisplay();
+    showLoadingOverlay(false);
+
+    // Popup ad
+    if(settings.popupEnabled !== false) {
+      var lastPopup = ls('ll_last_popup');
+      var today = new Date().toDateString();
+      if(lastPopup !== today) {
+        setTimeout(function(){ showPopupAd(); }, 1500);
+        lsSave('ll_last_popup', today);
+      }
+    }
+    trackVisit();
+  } catch(e) {
+    console.error('Async init error:', e);
+    showLoadingOverlay(false);
+  }
+}
 
 // ════════════════════════════════════
 // DARK MODE
@@ -1052,9 +1108,14 @@ function resetStats(){
 // SETTINGS
 // ════════════════════════════════════
 async function loadSettings(){
-  settings=await jbLoad('settings',DEFAULT_SETTINGS);
-  if(!settings.tiktok)settings={...DEFAULT_SETTINGS,...settings};
-  applySettings();
+  try {
+    settings=await jbLoad('settings',DEFAULT_SETTINGS);
+    if(!settings||!settings.tiktok) settings={...DEFAULT_SETTINGS};
+    applySettings();
+  } catch(e) {
+    settings={...DEFAULT_SETTINGS};
+    applySettings();
+  }
 }
 function applySettings(){
   if(settings.heroSub){const el=document.getElementById('hero-sub-display');if(el)el.textContent=settings.heroSub}
