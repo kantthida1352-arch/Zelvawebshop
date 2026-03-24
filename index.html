@@ -3,8 +3,11 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zelva — ร้านเสื้อผ้าแฟชั่นผู้หญิง</title>
+<title>Zelva — คัดสรรสิ่งดีๆ เพื่อคุณ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -425,7 +428,7 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
     </div>
     <div class="popup-ad-body">
       <h3 id="popup-ad-title" style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#3D2E1E;margin-bottom:8px;">ยินดีต้อนรับสู่ Zelva</h3>
-      <p id="popup-ad-desc" style="font-size:14px;color:#7A6A55;line-height:1.6;margin-bottom:16px;">แฟชั่นผู้หญิงคัดสรรพิเศษ สวยครบ ราคาดี จัดส่งไว</p>
+      <p id="popup-ad-desc" style="font-size:14px;color:#7A6A55;line-height:1.6;margin-bottom:16px;">คัดสรรสินค้าคุณภาพ ราคาดี จัดส่งไว เชื่อถือได้</p>
       <button class="btn-submit" id="popup-ad-btn" onclick="closePopupAd()">ดูสินค้าเลย</button>
       <div class="popup-ad-timer" id="popup-ad-timer"></div>
     </div>
@@ -445,15 +448,10 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
   <div class="header-inner">
     <a href="#" class="logo">
       <div style="display:flex;align-items:center;gap:10px">
-        <div class="logo-icon" style="width:44px;height:44px;border-radius:14px;background:#D4A843;background:-webkit-linear-gradient(135deg,#F5D370,#D4A843,#B8922E);background:linear-gradient(135deg,#F5D370,#D4A843,#B8922E);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(212,168,67,0.4)">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 3C12 3 7 5.5 7 9.5C7 11.5 8.5 13 10.5 13C11.5 13 12.3 12.6 12.8 12C13.3 12.6 14.1 13 15.1 13C17.1 13 18.6 11.5 18.6 9.5C18.6 5.5 12 3 12 3Z" fill="white" opacity="0.9"/>
-            <path d="M12 21C12 21 7 18.5 7 14.5C7 12.5 8.5 11 10.5 11C11.5 11 12.3 11.4 12.8 12C13.3 11.4 14.1 11 15.1 11C17.1 11 18.6 12.5 18.6 14.5C18.6 18.5 12 21 12 21Z" fill="white" opacity="0.7"/>
-          </svg>
-        </div>
+        <img src="data:image/png;base64,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" alt="Zelva" style="width:46px;height:46px;border-radius:50%;object-fit:cover;box-shadow:0 3px 12px rgba(212,168,67,0.4);border:2px solid rgba(212,168,67,0.3)">
         <div style="display:flex;flex-direction:column;line-height:1">
-          <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#B8922E;letter-spacing:3px;background:-webkit-linear-gradient(135deg,#B8922E,#D4A843,#F5D370);background:linear-gradient(135deg,#B8922E,#D4A843,#F5D370);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="shop-name-display">ZELVA</span>
-          <span style="font-size:9px;letter-spacing:2px;color:#A89880;font-weight:500;margin-top:1px">FASHION</span>
+          <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;letter-spacing:3px;color:#B8922E" id="shop-name-display">ZELVA</span>
+          <span style="font-size:9px;letter-spacing:2px;color:#A89880;font-weight:500;margin-top:1px">BOUTIQUE</span>
         </div>
       </div>
     </a>
@@ -478,12 +476,12 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
       Trusted by 1,000+ Happy Customers
     </div>
     <h1 class="animate-fade-in-up d1">Effortless<br><span class="gold-text">Elegance</span></h1>
-    <p class="hero-subtitle animate-fade-in-up d2">Your Style, Your Story</p>
-    <p class="hero-subtitle-thai animate-fade-in-up d2" id="hero-sub-display">เสื้อผ้าแฟชั่นผู้หญิง คัดมาเพื่อคุณโดยเฉพาะ</p>
+    <p class="hero-subtitle animate-fade-in-up d2">Curated with Care, Just for You</p>
+    <p class="hero-subtitle-thai animate-fade-in-up d2" id="hero-sub-display">คัดสรรสิ่งดีๆ เพื่อชีวิตที่ดีกว่า</p>
     <div class="hero-cta-group animate-fade-in-up d3">
       <button onclick="goShop()" class="btn-primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        ดูสินค้าใน TikTok
+        ช้อปสินค้าใน TikTok
       </button>
       <a href="#credits" class="btn-secondary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
@@ -497,7 +495,7 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
 
 <div class="trust-bar">
   <div class="trust-bar-inner">
-    <div class="trust-item"><div class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8922E" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div><span>ช้อปปิ้งปลอดภัย</span></div>
+    <div class="trust-item"><div class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8922E" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div><span>ช้อปปลอดภัย</span></div>
     <div class="trust-item"><div class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8922E" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><span>จัดส่งทั่วไทย</span></div>
     <div class="trust-item"><div class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F5D370" stroke="#B8922E" stroke-width="1.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span>สินค้าคุณภาพ</span></div>
     <div class="trust-item"><div class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8922E" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><span>ตอบแชทไว</span></div>
@@ -552,7 +550,7 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
 <!-- PRODUCTS SECTION -->
 
 <section class="products-section" id="products">
-  <div class="section-label">Our Collection</div>
+  <div class="section-label">Our Selection</div>
   <h2 class="section-title">สินค้าแนะนำ</h2>
   <div class="products-grid" id="featured-products-grid"></div>
   <div style="text-align:center">
@@ -586,8 +584,8 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
 <footer class="footer">
   <div class="footer-inner">
     <div>
-      <span class="footer-logo">Zelva</span>
-      <p class="footer-desc">แฟชั่นผู้หญิงคัดสรรพิเศษ สวยครบ ราคาดี จัดส่งไว</p>
+      <span class="footer-logo" style="letter-spacing:2px">ZELVA</span>
+      <p class="footer-desc">คัดสรรสินค้าคุณภาพ ราคาดี จัดส่งไว เชื่อถือได้</p>
     </div>
     <div>
       <h4>ร้านค้า</h4>
@@ -608,7 +606,7 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">© 2026 Zelva — ร้านเสื้อผ้าแฟชั่นผู้หญิง. All rights reserved.</div>
+  <div class="footer-bottom">© 2026 ZELVA Boutique — คัดสรรสิ่งดีๆ เพื่อคุณ. All rights reserved.</div>
 </footer>
 
 <!-- BACK TO TOP -->
@@ -705,7 +703,7 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
       </div>
       <button class="btn-buy" style="flex:1" id="modal-buy-btn" onclick="goProductFromModal()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        ดูสินค้าใน TikTok
+        ช้อปสินค้าใน TikTok
       </button>
     </div>
   </div>
@@ -793,7 +791,7 @@ body.dark .page-header{background:rgba(26,20,16,.92)}
   <div class="admin-panel">
     <div class="admin-panel-header">
       <div style="display:flex;align-items:center;justify-content:space-between">
-        <div><h2>⚙️ Admin Dashboard</h2><p>Zelva — จัดการร้านค้าทั้งหมด</p></div>
+        <div><h2>⚙️ Admin Dashboard</h2><p>Zelva Boutique — Admin Dashboard</p></div>
         <button onclick="closeAdminPanel()" style="background:rgba(255,255,255,.15);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer">×</button>
       </div>
     </div>
@@ -907,10 +905,10 @@ const DEFAULT_PRODUCTS = [
 ];
 const DEFAULT_SETTINGS = {
   tiktok:DEFAULT_TIKTOK,defaultCredit:219,shopName:"Zelva",
-  heroSub:"เสื้อผ้าแฟชั่นผู้หญิง คัดมาเพื่อคุณโดยเฉพาะ",
+  heroSub:"คัดสรรสิ่งดีๆ เพื่อชีวิตที่ดีกว่า",
   line:"@zelva",ig:"@zelva",
   popupEnabled:true,popupTitle:"ยินดีต้อนรับสู่ Zelva",
-  popupDesc:"แฟชั่นผู้หญิงคัดสรรพิเศษ สวยครบ ราคาดี",
+  popupDesc:"สินค้าคัดสรรคุณภาพ ราคาดี เชื่อถือได้",
   popupImg:"",bannerEnabled:false,bannerText:"🔥 โปรโมชั่นพิเศษ!"
 };
 
@@ -1215,7 +1213,7 @@ function openProductModal(prefix,idx){
   document.getElementById('modal-price').textContent=p.price||'';
   document.getElementById('modal-desc').textContent=p.desc||'';
   document.getElementById('modal-price-big').textContent=p.price||'';
-  document.getElementById('modal-buy-btn').textContent='ดูสินค้าใน TikTok →';
+  document.getElementById('modal-buy-btn').textContent='ช้อปสินค้าใน TikTok →';
 
   // price original
   const origEl=document.getElementById('modal-price-orig');
